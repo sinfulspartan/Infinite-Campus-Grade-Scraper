@@ -47,22 +47,34 @@ class course:
         self.diff = self.diff_grade(grade, name)
 
     def get_letter_grade(self):
-        """returns the letter equivalent of the class's grade"""
-        ap = bool(get_config('Grades')['use_ap_scaling']) and 'AP' in self.name
-        meets_cutoff = lambda x: self.grade >= float(get_config('Grades')[x + '_cutoff'])
-
-        if ap and meets_cutoff('a'):
-            return 'A+'
-        elif (ap and meets_cutoff('b')) or meets_cutoff('a'):
-            return 'A'
-        elif (ap and meets_cutoff('c')) or meets_cutoff('b'):
-            return 'B'
-        elif meets_cutoff('c'):
-            return 'C'
-        elif meets_cutoff('d'):
-            return 'D'
-        else:
-            return 'F'
+	"""returns the letter equivalent of the class's grade"""
+	ap = bool(get_config('Grades')['use_ap_scaling']) and 'AP' in self.name
+	science = get_config('Science Grades')['science name'] in self.name
+	meets_cutoff = lambda x: self.grade >= float(get_config('Grades')[x + '_cutoff'])
+	meets_science_cutoff = lambda x: self.grade >= float(get_config('Science Grades')[x + '_cutoff'])
+	if science:
+		if meets_science_cutoff('a'):
+			return 'A'
+		elif meets_science_cutoff('b'):
+			return 'B'
+		elif meets_science_cutoff('c'):
+			return 'C'
+		elif meets_science_cutoff('d'):
+			return('D')
+		else:
+			return('F')
+	if ap and meets_cutoff('a'):
+		return 'A+'
+	elif (ap and meets_cutoff('b')) or meets_cutoff('a'):
+           	return 'A'
+	elif (ap and meets_cutoff('c')) or meets_cutoff('b'):
+            	return 'B'
+	elif meets_cutoff('c'):
+            	return 'C'
+	elif meets_cutoff('d'):
+            	return 'D'
+	else:
+            	return 'F'
 
     def diff_grade_weekly(self):
         return self.diff_grade_custom(self.grade, self.name, date-timedelta(days=7))
