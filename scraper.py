@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 import ConfigParser
 import cookielib
@@ -7,7 +7,7 @@ import os
 import string
 import sys
 
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from datetime import date, timedelta, datetime
 from optparse import OptionParser
 from xml.dom import minidom
@@ -153,7 +153,7 @@ def get_class_links():
     and adds the grade page links to the link_list array
     """
     r = br.open(get_schedule_page_url())
-    soup = BeautifulSoup(r)
+    soup = BeautifulSoup(r, "lxml")
     table = soup.find('table', cellpadding=2, bgcolor='#A0A0A0')
     link_list = []
     for row in table.findAll('tr')[2:6]:
@@ -168,7 +168,7 @@ def get_class_links():
 def get_term():
     """returns the current term"""
     r = br.open(get_schedule_page_url()) #opens schdule page
-    soup = BeautifulSoup(r)
+    soup = BeautifulSoup(r, "lxml")
     terms = soup.findAll('th', {'class':'scheduleHeader'}, align='center')
     count = 0
     for term in terms:
@@ -183,7 +183,7 @@ def get_term():
 def get_num_blocks():
     """returns the number of blocks per day"""
     r = br.open(get_schedule_page_url()) #opens schdule page
-    soup = BeautifulSoup(r)
+    soup = BeautifulSoup(r, "lxml")
     blocks = soup.findAll('th', {'class':'scheduleHeader'}, align='center')
     count = 0
     for block in blocks:
@@ -194,7 +194,7 @@ def get_num_blocks():
 def parse_grades_page(url_part):
     """parses the class page at the provided url and returns a course object for it"""
     page = br.open(get_base_url() + url_part)
-    soup = BeautifulSoup(page)
+    soup = BeautifulSoup(page, "lxml")
     if soup.findAll(name='a', attrs={'class':'gridPartOfTermGPA'}, limit=1)[0].span is None:
 		grade = float(0)
     else:
