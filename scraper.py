@@ -156,12 +156,12 @@ def get_class_links():
     soup = BeautifulSoup(r)
     table = soup.find('table', cellpadding=2, bgcolor='#A0A0A0')
     link_list = []
-    for row in table.findAll('tr')[1:get_num_blocks()+1]:
+    for row in table.findAll('tr')[2:6]:
         for col in row.findAll('td'):
-            link = col.find('a')['href']
-            if 'mailto' in link:
-                link = None
-            link_list.append(link)
+	        link = col.find('a')['href']
+                if 'mailto' in link:
+                    link = None
+                link_list.append(link)
 
     return link_list
 
@@ -191,11 +191,14 @@ def get_num_blocks():
             count += 1
     return count
 
-def parse_page(url_part):
+def parse_grades_page(url_part):
     """parses the class page at the provided url and returns a course object for it"""
     page = br.open(get_base_url() + url_part)
     soup = BeautifulSoup(page)
-    grade = float(soup.findAll(name='a', attrs={'class':'gridPartOfTermGPA'}, limit=1)[0].span.string[:-2])
+    if soup.findAll(name='a', attrs={'class':'gridPartOfTermGPA'}, limit=1)[0].span is None:
+		grade = float(0)
+    else:
+		grade = float(soup.findAll(name='a', attrs={'class':'gridPartOfTermGPA'}, limit=1)[0].span.string[0:4])
     course_name = soup.findAll(name='div', attrs={'class':'gridTitle'}, limit=1)[0].string
     course_name = string.replace(course_name, '&amp;', '&')
     return course(course_name, grade)
@@ -210,7 +213,7 @@ def get_grades():
     term = get_term()
     for num, link in enumerate(class_links):
         if (num+1) % term == 0 and link is not None:
-            grades.append(parse_page(link))
+			grades.append(parse_grades_page(link))
     return grades
 
 def login():

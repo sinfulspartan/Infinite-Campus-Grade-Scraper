@@ -5,3 +5,5 @@ data.csv
 
 build
 dist
+
+*.info
