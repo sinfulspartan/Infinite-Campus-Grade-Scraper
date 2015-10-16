@@ -118,7 +118,7 @@ def setup():
 
 def get_base_url():
     """returns the site's base url, taken from the login page url"""
-    return get_config('Authentication')['login_url'].split("/campus")[0] + '/campus/'
+    return get_config('Authentication')['login_url'].split("portal")[0]
 
 def get_schedule_page_url():
     """returns the url of the schedule page"""
