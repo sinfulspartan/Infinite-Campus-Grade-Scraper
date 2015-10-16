@@ -1,30 +1,11 @@
-This script scrapes grades from Infinite Campus and stores them in a data file.  It also has the option of emailing grades via smtp.
+A quick and dirty edit of Ben Doan's campus scrapper, only modifications are specific to the current version of campus being run.
 
-INSTALL
+REQUIREMENTS
 =======
-* Rename "config-sample.ini" to "config.ini" and fill in the required fields
-* Install the "mechanize" and "BeautifulSoup" python modules
+* Mechanize
+* BeautifulSoup
 
-Caveats
-=======
-* The script has only been tested on schedules with 5 classes and 4 semesters
-* May not work with all versions of Inifinite Campus
 
-USAGE
-=====
-```
-Usage: scraper.py [options]
-
-A script to scrape grades from an infinite campus website
-
-Options:
-  -h, --help     show this help message and exit
-  -p, --print    prints the grade report to stdout
-  -e, --email    email the grade report to user
-  -w, --weekly   diffs using the grades from a week ago
-  -n, --no-log   does not log grades in grades database
-  -v, --verbose  outputs more information
-```
 
 LICENSE
 =======
